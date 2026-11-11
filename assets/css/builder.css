@@ -1,0 +1,316 @@
+/* DMR Full Page Form Builder Dedicated Styles */
+* {
+    box-sizing: border-box;
+}
+
+.dmr-builder-wrapper {
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+/* Section Container */
+.dmr-section-block {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 12px !important;
+    margin-bottom: 24px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease !important;
+}
+
+.dmr-section-block.ui-sortable-helper {
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15) !important;
+    border-color: #D32F2F !important;
+    background: #FFFFFF !important;
+    opacity: 0.96;
+}
+
+.dmr-section-header {
+    background: #F8FAFC !important;
+    border-bottom: 1px solid #E2E8F0 !important;
+    padding: 14px 20px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+}
+
+.dmr-section-drag-handle {
+    cursor: grab !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+    color: #94A3B8 !important;
+    background: #F1F5F9 !important;
+    border: 1px solid #E2E8F0 !important;
+    transition: all 0.15s ease !important;
+    user-select: none !important;
+}
+
+.dmr-section-drag-handle:hover {
+    color: #D32F2F !important;
+    background: #FFEBEE !important;
+    border-color: #FECACA !important;
+}
+
+.dmr-section-drag-handle:active {
+    cursor: grabbing !important;
+}
+
+.dmr-section-body {
+    padding: 20px !important;
+    background: #FFFFFF !important;
+}
+
+/* Fields List Container (Multi-direction Grid for Dragging Left, Right, Up, Down) */
+.dmr-section-fields-list {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+    min-height: 80px !important;
+    padding: 6px !important;
+    border-radius: 8px !important;
+}
+
+/* Field Card */
+.dmr-field-card {
+    background: #FFFFFF !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 10px !important;
+    padding: 16px 18px !important;
+    margin-bottom: 0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+    display: block !important;
+    width: calc(50% - 8px) !important; /* 2-column side-by-side by default */
+    min-width: 320px !important;
+    flex: 1 1 calc(50% - 8px) !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+    transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.15s ease !important;
+}
+
+.dmr-field-card.dmr-field-full-width {
+    width: 100% !important;
+    flex: 1 1 100% !important;
+}
+
+.dmr-field-card.ui-sortable-helper {
+    box-shadow: 0 10px 24px rgba(211, 47, 47, 0.18) !important;
+    border-color: #D32F2F !important;
+    background: #FFFFFF !important;
+    opacity: 0.95;
+    z-index: 9999 !important;
+    transform: rotate(0.8deg) scale(1.02);
+}
+
+/* Top toolbar of each field card: Drag Handle, Width Toggle, Delete */
+.dmr-field-card-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding-bottom: 10px !important;
+    margin-bottom: 12px !important;
+    border-bottom: 1px dashed #E2E8F0 !important;
+}
+
+.dmr-field-drag-handle {
+    cursor: grab !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #64748B !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    user-select: none !important;
+    transition: all 0.15s ease !important;
+}
+
+.dmr-field-drag-handle:hover {
+    color: #D32F2F !important;
+    background: #FFEBEE !important;
+    border-color: #FECACA !important;
+}
+
+.dmr-field-drag-handle:active {
+    cursor: grabbing !important;
+}
+
+.dmr-width-toggle-btn {
+    background: #F1F5F9 !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 6px !important;
+    padding: 3px 8px !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    color: #475569 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+
+.dmr-width-toggle-btn:hover {
+    background: #E2E8F0 !important;
+    color: #0F172A !important;
+}
+
+/* Primary Form Inputs Row inside field card */
+.dmr-field-main-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr 1fr 70px !important;
+    gap: 12px !important;
+    align-items: flex-end !important;
+    width: 100% !important;
+}
+
+@media (max-width: 900px) {
+    .dmr-field-card {
+        width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+    .dmr-field-main-grid {
+        grid-template-columns: 1fr 1fr !important;
+    }
+}
+
+.dmr-col-item {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+}
+
+.dmr-col-item label {
+    display: block !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    text-transform: uppercase !important;
+    margin-bottom: 6px !important;
+    letter-spacing: 0.3px !important;
+}
+
+.dmr-form-input {
+    width: 100% !important;
+    height: 40px !important;
+    padding: 0 12px !important;
+    font-size: 13px !important;
+    color: #1E293B !important;
+    border: 1px solid #CBD5E1 !important;
+    border-radius: 6px !important;
+    background: #FFFFFF !important;
+    outline: none !important;
+    transition: border 0.15s ease !important;
+}
+
+.dmr-form-input:focus {
+    border-color: #D32F2F !important;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.1) !important;
+}
+
+/* Toggle Switch */
+.dmr-switch {
+    position: relative !important;
+    display: inline-block !important;
+    width: 44px !important;
+    height: 24px !important;
+    margin: 0 auto !important;
+}
+
+.dmr-switch input {
+    opacity: 0 !important;
+    width: 0 !important;
+    height: 0 !important;
+}
+
+.dmr-slider {
+    position: absolute !important;
+    cursor: pointer !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background-color: #CBD5E1 !important;
+    transition: .2s !important;
+    border-radius: 24px !important;
+}
+
+.dmr-slider:before {
+    position: absolute !important;
+    content: "" !important;
+    height: 18px !important;
+    width: 18px !important;
+    left: 3px !important;
+    bottom: 3px !important;
+    background-color: white !important;
+    transition: .2s !important;
+    border-radius: 50% !important;
+}
+
+input:checked + .dmr-slider {
+    background-color: #D32F2F !important;
+}
+
+input:checked + .dmr-slider:before {
+    transform: translateX(20px) !important;
+}
+
+/* Delete Button */
+.dmr-btn-del-field {
+    background: none !important;
+    border: none !important;
+    color: #DC2626 !important;
+    cursor: pointer !important;
+    padding: 6px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    transition: transform 0.15s ease, background 0.15s ease !important;
+    border-radius: 6px !important;
+}
+
+.dmr-btn-del-field:hover {
+    transform: scale(1.1) !important;
+    background: #FFEBEE !important;
+}
+
+/* Drag & Drop Placeholder Styling */
+.dmr-sortable-placeholder-field {
+    border: 2px dashed #D32F2F !important;
+    background: #FFF5F5 !important;
+    border-radius: 10px !important;
+    min-height: 140px !important;
+    width: calc(50% - 8px) !important;
+    flex: 1 1 calc(50% - 8px) !important;
+    box-sizing: border-box !important;
+    margin-bottom: 0 !important;
+}
+
+.dmr-sortable-placeholder-section {
+    border: 2px dashed #D32F2F !important;
+    background: #FFF5F5 !important;
+    border-radius: 12px !important;
+    min-height: 180px !important;
+    margin-bottom: 24px !important;
+}
+
+/* Type Specific Drawer */
+.dmr-dynamic-type-box {
+    margin-top: 12px !important;
+    width: 100% !important;
+}
+
+.dmr-drawer-box {
+    background: #F8FAFC !important;
+    border: 1px solid #E2E8F0 !important;
+    border-radius: 8px !important;
+    padding: 14px !important;
+    margin-top: 10px !important;
+}

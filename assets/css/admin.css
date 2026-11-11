@@ -1,0 +1,271 @@
+/* DMR Admin Stylesheet - Red and White Theme */
+:root {
+    --dmr-red: #D32F2F;
+    --dmr-red-light: #FFEBEE;
+    --dmr-red-hover: #B71C1C;
+    --dmr-dark: #1F2937;
+    --dmr-gray: #6B7280;
+    --dmr-border: #E5E7EB;
+    --dmr-bg: #F4F6F9;
+    --dmr-card-bg: #FFFFFF;
+}
+
+.dmr-admin-wrap {
+    margin: 20px 20px 40px 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    color: var(--dmr-dark);
+}
+
+/* Header */
+.dmr-admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    padding: 16px 24px;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    border: 1px solid var(--dmr-border);
+    margin-bottom: 24px;
+}
+
+.dmr-admin-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dmr-admin-title h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--dmr-dark);
+    margin: 0;
+    padding: 0;
+}
+
+.dmr-badge-pill {
+    background: var(--dmr-red-light);
+    color: var(--dmr-red);
+    font-size: 12px;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 9999px;
+}
+
+/* Stats Cards (matches the user's reference screenshot) */
+.dmr-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.dmr-stat-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid var(--dmr-border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+}
+
+.dmr-stat-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: var(--dmr-red);
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.dmr-stat-info h4 {
+    margin: 0 0 4px 0;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--dmr-gray);
+}
+
+.dmr-stat-number {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--dmr-dark);
+    line-height: 1.1;
+}
+
+/* White Card Containers */
+.dmr-panel-card {
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid var(--dmr-border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.dmr-panel-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--dmr-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dmr-panel-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--dmr-dark);
+}
+
+.dmr-panel-body {
+    padding: 24px;
+}
+
+/* Tables */
+.dmr-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.dmr-table th {
+    background: #FAFAFA;
+    padding: 12px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: var(--dmr-gray);
+    border-bottom: 1px solid var(--dmr-border);
+    text-align: left;
+}
+
+.dmr-table td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--dmr-border);
+    vertical-align: middle;
+}
+
+.dmr-table tr:hover td {
+    background: #FFFDFD;
+}
+
+/* Badges */
+.dmr-status-badge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.dmr-status-pending {
+    background: #FFFBEB;
+    color: #D97706;
+}
+
+.dmr-status-approved {
+    background: #ECFDF5;
+    color: #059669;
+}
+
+.dmr-status-rejected {
+    background: #FEF2F2;
+    color: var(--dmr-red);
+}
+
+/* Buttons */
+.dmr-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.dmr-btn-primary {
+    background: var(--dmr-red);
+    color: #ffffff !important;
+}
+
+.dmr-btn-primary:hover {
+    background: var(--dmr-red-hover);
+}
+
+.dmr-btn-outline {
+    background: #ffffff;
+    color: var(--dmr-red) !important;
+    border: 1px solid var(--dmr-red);
+}
+
+.dmr-btn-outline:hover {
+    background: var(--dmr-red-light);
+}
+
+.dmr-btn-sm {
+    padding: 5px 10px;
+    font-size: 12px;
+}
+
+/* Form Inputs */
+.dmr-form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.dmr-field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.dmr-field-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dmr-dark);
+}
+
+.dmr-input, .dmr-select, .dmr-textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--dmr-border);
+    font-size: 14px;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.dmr-input:focus, .dmr-select:focus, .dmr-textarea:focus {
+    border-color: var(--dmr-red);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.15);
+}
+
+/* Form Builder Draggable List */
+.dmr-field-row {
+    background: #FFFFFF;
+    border: 1px solid var(--dmr-border);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
