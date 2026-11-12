@@ -1079,9 +1079,6 @@ class DMR_Plugin {
         if (!empty($status_filter)) {
             $sql .= " AND status = %s";
             $params[] = $status_filter;
-        } else {
-            // Default registrations view is pending
-            $sql .= " AND status = 'pending'";
         }
 
         if (!empty($type_filter)) {
@@ -1130,9 +1127,6 @@ class DMR_Plugin {
         if (!empty($status_filter)) {
             $sql .= " AND status = %s";
             $params[] = $status_filter;
-        } else {
-            // Default members view is approved
-            $sql .= " AND status = 'approved'";
         }
 
         if (!empty($type_filter)) {

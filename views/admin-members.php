@@ -20,8 +20,8 @@ $all_member_types = $wpdb->get_results("SELECT * FROM $table_types ORDER BY id A
                 <label for="dmr-member-status-filter" style="font-size:14px; font-weight:600; color:#334155; font-family:'Times New Roman', serif;">Filter by status</label>
                 <div style="position:relative; display:inline-block;">
                     <select id="dmr-member-status-filter" class="dmr-filter-select" onchange="filterMembersTable()" style="appearance:none; -webkit-appearance:none; border:1px solid #CBD5E1; border-radius:6px; padding:8px 36px 8px 14px; font-size:14px; background:#FFFFFF; color:#1E293B; outline:none; font-family:'Times New Roman', serif; min-width:140px; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-                        <option value="">All statuses</option>
-                        <option value="approved" selected>Active</option>
+                        <option value="" selected>All statuses</option>
+                        <option value="approved">Active</option>
                         <option value="pending">Pending</option>
                         <option value="rejected">Rejected</option>
                     </select>

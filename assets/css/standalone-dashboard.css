@@ -115,7 +115,7 @@ body.dmr-dashboard-body {
     flex: 1;
 }
 
-/* Sidebar */
+/* Sidebar - Sticky / Constant when content scrolls */
 .dmr-sidebar {
     width: 250px;
     background: #FFFFFF;
@@ -123,6 +123,11 @@ body.dmr-dashboard-body {
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
+    position: sticky;
+    top: 64px;
+    height: calc(100vh - 64px);
+    overflow-y: auto;
+    z-index: 100;
 }
 
 .dmr-sidebar-user {
@@ -255,7 +260,7 @@ body.dmr-dashboard-body {
     flex: 1;
     padding: 30px;
     background: #F8F9FA;
-    overflow-y: auto;
+    min-width: 0;
 }
 
 .dmr-stage-header {

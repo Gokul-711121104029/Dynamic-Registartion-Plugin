@@ -35,9 +35,9 @@ $current_user = wp_get_current_user();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard &mdash; Dynamic Registration</title>
-    <link rel="stylesheet" href="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/css/standalone-dashboard.css?v=4.1'); ?>">
-    <link rel="stylesheet" href="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/css/admin.css?v=4.1'); ?>">
-    <link rel="stylesheet" href="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/css/builder.css?v=4.1'); ?>">
+    <link rel="stylesheet" href="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/css/standalone-dashboard.css?v=4.3'); ?>">
+    <link rel="stylesheet" href="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/css/admin.css?v=4.3'); ?>">
+    <link rel="stylesheet" href="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/css/builder.css?v=4.3'); ?>">
     <script src="<?php echo esc_url(includes_url('/js/jquery/jquery.min.js')); ?>"></script>
     <script src="<?php echo esc_url(includes_url('/js/jquery/ui/core.min.js')); ?>"></script>
     <script src="<?php echo esc_url(includes_url('/js/jquery/ui/mouse.min.js')); ?>"></script>
@@ -51,7 +51,7 @@ $current_user = wp_get_current_user();
             nonce: "<?php echo wp_create_nonce('dmr_admin_nonce'); ?>"
         };
     </script>
-    <script src="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/js/admin.js?v=4.1'); ?>"></script>
+    <script src="<?php echo esc_url(DMR_PLUGIN_URL . 'assets/js/admin.js?v=4.3'); ?>"></script>
     <script>
         function toggleConfigSubmenu(el) {
             var item = jQuery(el).closest('.dmr-menu-item');
@@ -281,16 +281,16 @@ $current_user = wp_get_current_user();
                 </div>
 
             <?php elseif ($current_view === 'registrations'): ?>
-                <!-- Registrations Module (Only Pending Applications) -->
+                <!-- Registrations Module (All / Filtered Applications) -->
                 <?php 
-                    $registrations = $wpdb->get_results("SELECT * FROM $table_members WHERE status = 'pending' ORDER BY id DESC");
+                    $registrations = $wpdb->get_results("SELECT * FROM $table_members ORDER BY id DESC");
                     include DMR_PLUGIN_DIR . 'views/admin-registrations.php';
                 ?>
 
             <?php elseif ($current_view === 'members'): ?>
-                <!-- Members Module -->
+                <!-- Members Module (All / Filtered Members) -->
                 <?php 
-                    $members = $wpdb->get_results("SELECT * FROM $table_members WHERE status = 'approved' ORDER BY id DESC");
+                    $members = $wpdb->get_results("SELECT * FROM $table_members ORDER BY id DESC");
                     include DMR_PLUGIN_DIR . 'views/admin-members.php';
                 ?>
 

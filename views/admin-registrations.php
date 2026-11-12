@@ -20,8 +20,8 @@ $all_member_types = $wpdb->get_results("SELECT * FROM $table_types ORDER BY id A
                 <label for="dmr-reg-status-filter" style="font-size:14px; font-weight:600; color:#334155; font-family:'Times New Roman', serif;">Filter by status</label>
                 <div style="position:relative; display:inline-block;">
                     <select id="dmr-reg-status-filter" class="dmr-filter-select" onchange="filterRegistrationsTable()" style="appearance:none; -webkit-appearance:none; border:1px solid #CBD5E1; border-radius:6px; padding:8px 36px 8px 14px; font-size:14px; background:#FFFFFF; color:#1E293B; outline:none; font-family:'Times New Roman', serif; min-width:140px; cursor:pointer; box-shadow:0 1px 2px rgba(0,0,0,0.04);">
-                        <option value="">All statuses</option>
-                        <option value="pending" selected>Pending</option>
+                        <option value="" selected>All statuses</option>
+                        <option value="pending">Pending</option>
                         <option value="approved">Active</option>
                         <option value="rejected">Rejected</option>
                     </select>
@@ -105,30 +105,20 @@ $all_member_types = $wpdb->get_results("SELECT * FROM $table_types ORDER BY id A
                                         </svg>
                                     </button>
 
-                                    <?php if ($r->status === 'pending'): ?>
-                                        <!-- Tick Icon (Approve) -->
-                                        <button type="button" class="dmr-icon-btn dmr-icon-approve" style="color:#059669;" title="Approve Registration" onclick="askApproveRegistration(<?php echo esc_attr($r->id); ?>, '<?php echo esc_js($fullName); ?>')">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                                <polyline points="20 6 9 17 4 12"></polyline>
-                                            </svg>
-                                        </button>
-                                        <!-- Reject Icon (Delete) -->
-                                        <button type="button" class="dmr-icon-btn dmr-icon-reject" style="color:#DC2626;" title="Reject Registration" onclick="askRejectRegistration(<?php echo esc_attr($r->id); ?>, '<?php echo esc_js($fullName); ?>')">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                                            </svg>
-                                        </button>
-                                    <?php elseif ($r->status === 'approved'): ?>
-                                        <span style="color:#059669; font-size:12px; font-weight:700;">✓ Approved</span>
-                                    <?php else: ?>
-                                        <button type="button" class="dmr-icon-btn dmr-icon-reject" style="color:#DC2626;" title="Delete Record" onclick="askRejectRegistration(<?php echo esc_attr($r->id); ?>, '<?php echo esc_js($fullName); ?>')">
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                                <line x1="18" y1="6" x2="6" y2="18"></line>
-                                                <line x1="6" y1="6" x2="18" y2="18"></line>
-                                            </svg>
-                                        </button>
-                                    <?php endif; ?>
+                                    <!-- Approve Icon (Tick) -->
+                                    <button type="button" class="dmr-icon-btn dmr-icon-approve" style="color:#059669;" title="Approve Registration" onclick="askApproveRegistration(<?php echo esc_attr($r->id); ?>, '<?php echo esc_js($fullName); ?>')">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <polyline points="20 6 9 17 4 12"></polyline>
+                                        </svg>
+                                    </button>
+
+                                    <!-- Reject Icon (Cross) -->
+                                    <button type="button" class="dmr-icon-btn dmr-icon-reject" style="color:#DC2626;" title="Reject Registration" onclick="askRejectRegistration(<?php echo esc_attr($r->id); ?>, '<?php echo esc_js($fullName); ?>')">
+                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                                        </svg>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
