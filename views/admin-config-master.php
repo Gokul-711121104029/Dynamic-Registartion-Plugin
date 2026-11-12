@@ -16,7 +16,12 @@ if (!defined('ABSPATH')) {
 
         <div class="dmr-search-box">
             <div class="dmr-search-input-wrap">
-                <span class="dmr-search-icon-inside">🔍</span>
+                <span class="dmr-search-icon-inside" style="display:inline-flex; align-items:center; color:#6B7280;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </span>
                 <input type="text" id="dmr-type-search-input" class="dmr-search-input" placeholder="Search..." onkeydown="if(event.key==='Enter'||event.keyCode===13){event.preventDefault(); filterMemberTypes();}">
             </div>
             <button type="button" class="dmr-btn-search" onclick="filterMemberTypes()">SEARCH</button>
@@ -50,7 +55,7 @@ if (!defined('ABSPATH')) {
                             <td>
                                 <div class="dmr-action-icons">
                                     <!-- View Icon -->
-                                    <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick='viewMemberType(<?php echo json_encode($t); ?>)'>
+                                    <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick="viewMemberType(<?php echo esc_attr($t->id); ?>)">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                             <circle cx="12" cy="12" r="3"></circle>
@@ -58,7 +63,7 @@ if (!defined('ABSPATH')) {
                                     </button>
 
                                     <!-- Edit Icon -->
-                                    <button type="button" class="dmr-icon-btn dmr-icon-edit" title="Edit Member Type" onclick='editMemberType(<?php echo json_encode($t); ?>)'>
+                                    <button type="button" class="dmr-icon-btn dmr-icon-edit" title="Edit Member Type" onclick="editMemberType(<?php echo esc_attr($t->id); ?>)">
                                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                             <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                             <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -163,8 +168,12 @@ if (!defined('ABSPATH')) {
 <!-- Modal 3: Custom In-Page Delete Confirmation (No browser alert) -->
 <div id="dmrDeleteModal" class="dmr-modal-backdrop">
     <div class="dmr-modal-box" style="max-width: 420px; text-align:center;">
-        <div style="width:50px; height:50px; border-radius:50%; background:#FEE2E2; color:#DC2626; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto; font-size:24px;">
-            ⚠️
+        <div style="width:50px; height:50px; border-radius:50%; background:#FEE2E2; color:#DC2626; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
         </div>
         <h3 style="margin:0 0 8px 0; font-size:18px; color:#1F2937;">Confirm Deletion</h3>
         <p style="color:#6B7280; font-size:14px; margin:0 0 20px 0;">

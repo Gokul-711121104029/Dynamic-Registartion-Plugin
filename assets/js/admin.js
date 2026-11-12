@@ -1,7 +1,242 @@
 /* DMR Admin JS Scripts */
 jQuery(document).ready(function($) {
     // -------------------------------------------------------------
-    // MEMBER TYPE (MASTER PAGE) LOGIC
+    // MOBILE SIDEBAR NAVIGATION TOGGLE
+    // -------------------------------------------------------------
+    window.toggleMobileSidebar = function() {
+        $('.dmr-sidebar').toggleClass('mobile-open');
+        $('.dmr-sidebar-overlay').toggleClass('mobile-open');
+    };
+
+    window.closeMobileSidebar = function() {
+        $('.dmr-sidebar').removeClass('mobile-open');
+        $('.dmr-sidebar-overlay').removeClass('mobile-open');
+    };
+
+    // -------------------------------------------------------------
+    // DASHBOARD OVERVIEW: LIVE AJAX GROWTH CHART (Chart.js)
+    // -------------------------------------------------------------
+    function initDashboardGrowthChart() {
+        var canvas = document.getElementById('dmrGrowthChart');
+        if (!canvas) return;
+
+        $('#dmr-chart-loading').show();
+
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_growth_chart_data',
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            $('#dmr-chart-loading').hide();
+            if (res.success && res.data) {
+                var ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: res.data.labels,
+                        datasets: [{
+                            label: 'New members',
+                            data: res.data.data,
+                            borderColor: '#2563EB',
+                            backgroundColor: 'rgba(37, 99, 235, 0.08)',
+                            fill: true,
+                            tension: 0.35,
+                            pointBackgroundColor: '#2563EB',
+                            pointBorderColor: '#FFFFFF',
+                            pointBorderWidth: 2,
+                            pointRadius: 5,
+                            pointHoverRadius: 7
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    boxWidth: 16,
+                                    font: { size: 12, weight: '600' },
+                                    color: '#4B5563'
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: '#1E293B',
+                                titleFont: { size: 13, weight: '700' },
+                                bodyFont: { size: 12 },
+                                padding: 10,
+                                cornerRadius: 8
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { color: '#F3F4F6' },
+                                ticks: { color: '#6B7280', font: { size: 12 } }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                grid: { color: '#F3F4F6' },
+                                ticks: {
+                                    stepSize: 1,
+                                    precision: 0,
+                                    color: '#6B7280',
+                                    font: { size: 12 }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }).fail(function() {
+            $('#dmr-chart-loading').hide();
+        });
+    }
+
+    initDashboardGrowthChart();
+
+    // -------------------------------------------------------------
+    // DASHBOARD OVERVIEW: PIE CHART & BAR CHART (Chart.js via AJAX)
+    // -------------------------------------------------------------
+    function initDashboardOverviewCharts() {
+        var pieCanvas = document.getElementById('dmrStatusPieChart');
+        var barCanvas = document.getElementById('dmrTypeBarChart');
+        if (!pieCanvas && !barCanvas) return;
+
+        $('#dmr-pie-loading, #dmr-bar-loading').show();
+
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_dashboard_charts_data',
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            $('#dmr-pie-loading, #dmr-bar-loading').hide();
+            if (res.success && res.data) {
+                // 1. Status Pie Chart
+                if (pieCanvas) {
+                    var pieCtx = pieCanvas.getContext('2d');
+                    new Chart(pieCtx, {
+                        type: 'pie',
+                        data: {
+                            labels: res.data.pie.labels,
+                            datasets: [{
+                                data: res.data.pie.counts,
+                                backgroundColor: [
+                                    '#059669', // Active - Green
+                                    '#F59E0B', // Pending - Amber/Yellow
+                                    '#DC2626'  // Rejected - Red
+                                ],
+                                borderWidth: 2,
+                                borderColor: '#FFFFFF',
+                                hoverOffset: 6
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        boxWidth: 14,
+                                        padding: 14,
+                                        font: { size: 12, family: "'Times New Roman', serif", weight: '600' },
+                                        color: '#334155'
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: '#1E293B',
+                                    titleFont: { size: 13, weight: '700' },
+                                    bodyFont: { size: 12 },
+                                    padding: 10,
+                                    cornerRadius: 6
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 2. Member Type Bar Chart (X: Master Type, Y: Number of members)
+                if (barCanvas) {
+                    var barCtx = barCanvas.getContext('2d');
+                    new Chart(barCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: res.data.bar.labels,
+                            datasets: [{
+                                label: 'Number of Members',
+                                data: res.data.bar.counts,
+                                backgroundColor: 'rgba(211, 47, 47, 0.85)', // DMR Primary Red
+                                hoverBackgroundColor: '#B71C1C',
+                                borderColor: '#D32F2F',
+                                borderWidth: 1,
+                                borderRadius: 6,
+                                maxBarThickness: 45
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: {
+                                        boxWidth: 14,
+                                        font: { size: 12, family: "'Times New Roman', serif", weight: '600' },
+                                        color: '#334155'
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: '#1E293B',
+                                    titleFont: { size: 13, weight: '700' },
+                                    bodyFont: { size: 12 },
+                                    padding: 10,
+                                    cornerRadius: 6
+                                }
+                            },
+                            scales: {
+                                x: {
+                                    title: {
+                                        display: true,
+                                        text: 'Member Type (Configured in Master)',
+                                        font: { size: 12, weight: '700', family: "'Times New Roman', serif" },
+                                        color: '#475569'
+                                    },
+                                    grid: { display: false },
+                                    ticks: {
+                                        color: '#475569',
+                                        font: { size: 12, family: "'Times New Roman', serif" }
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Number of Members',
+                                        font: { size: 12, weight: '700', family: "'Times New Roman', serif" },
+                                        color: '#475569'
+                                    },
+                                    beginAtZero: true,
+                                    grid: { color: '#F1F5F9' },
+                                    ticks: {
+                                        stepSize: 1,
+                                        precision: 0,
+                                        color: '#475569',
+                                        font: { size: 12 }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }).fail(function() {
+            $('#dmr-pie-loading, #dmr-bar-loading').hide();
+        });
+    }
+
+    initDashboardOverviewCharts();
+
+    // -------------------------------------------------------------
+    // MEMBER TYPE (MASTER PAGE) LOGIC (ALL VIA AJAX)
     // -------------------------------------------------------------
     window.openMemberTypeModal = function() {
         $('#type_id').val(0);
@@ -14,7 +249,28 @@ jQuery(document).ready(function($) {
         $('#dmrTypeModal').hide();
     };
 
-    window.viewMemberType = function(t) {
+    window.viewMemberType = function(target) {
+        if (typeof target === 'object' && target !== null) {
+            populateMemberTypeViewModal(target);
+            return;
+        }
+
+        // Fetch freshly via AJAX
+        var id = parseInt(target, 10);
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_member_type_details',
+            id: id,
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            if (res.success && res.data.type) {
+                populateMemberTypeViewModal(res.data.type);
+            } else {
+                alert(res.data ? res.data.message : 'Error fetching member type details.');
+            }
+        });
+    };
+
+    function populateMemberTypeViewModal(t) {
         var start_raw = String(t.start_number || '001').trim();
         var pad_len = start_raw.length;
         var start_int = parseInt(start_raw, 10) || 1;
@@ -30,21 +286,42 @@ jQuery(document).ready(function($) {
         $('#view-description').text(t.description || 'No description provided.');
 
         $('#dmrViewModal').css('display', 'flex');
-    };
+    }
 
     window.closeViewModal = function() {
         $('#dmrViewModal').hide();
     };
 
-    window.editMemberType = function(typeData) {
+    window.editMemberType = function(target) {
+        if (typeof target === 'object' && target !== null) {
+            populateMemberTypeEditModal(target);
+            return;
+        }
+
+        // Fetch freshly via AJAX
+        var id = parseInt(target, 10);
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_member_type_details',
+            id: id,
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            if (res.success && res.data.type) {
+                populateMemberTypeEditModal(res.data.type);
+            } else {
+                alert(res.data ? res.data.message : 'Error fetching member type details.');
+            }
+        });
+    };
+
+    function populateMemberTypeEditModal(typeData) {
         $('#type_id').val(typeData.id);
         $('#type_name').val(typeData.type_name);
         $('#type_prefix').val(typeData.type_prefix);
         $('#start_number').val(typeData.start_number);
-        $('#type_description').val(typeData.description);
+        $('#type_description').val(typeData.description || '');
         $('#modalTitle').text('Edit Member Type: ' + typeData.type_name);
         $('#dmrTypeModal').css('display', 'flex');
-    };
+    }
 
     $('#dmrTypeForm').on('submit', function(e) {
         e.preventDefault();
@@ -151,13 +428,13 @@ jQuery(document).ready(function($) {
                     <td><span style="color:#059669; font-weight:600;">Active</span></td>
                     <td>
                         <div class="dmr-action-icons">
-                            <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick='viewMemberType(${JSON.stringify(t)})'>
+                            <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick="viewMemberType(${t.id})">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
                             </button>
-                            <button type="button" class="dmr-icon-btn dmr-icon-edit" title="Edit Member Type" onclick='editMemberType(${JSON.stringify(t)})'>
+                            <button type="button" class="dmr-icon-btn dmr-icon-edit" title="Edit Member Type" onclick="editMemberType(${t.id})">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
@@ -260,7 +537,7 @@ jQuery(document).ready(function($) {
             var actionsHtml = '';
             if (fieldCount > 0) {
                 actionsHtml = `
-                    <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Form Details & Preview" onclick='previewFormFields(${JSON.stringify(t)})'>
+                    <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Form Details & Preview" onclick="previewFormFields(${t.id})">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
@@ -302,7 +579,27 @@ jQuery(document).ready(function($) {
         });
     }
 
-    window.previewFormFields = function(t) {
+    window.previewFormFields = function(target) {
+        if (typeof target === 'object' && target !== null) {
+            populateFormPreviewModal(target);
+            return;
+        }
+
+        var id = parseInt(target, 10);
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_form_preview_details',
+            id: id,
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            if (res.success && res.data.type) {
+                populateFormPreviewModal(res.data.type);
+            } else {
+                alert(res.data ? res.data.message : 'Error fetching form configuration.');
+            }
+        });
+    };
+
+    function populateFormPreviewModal(t) {
         $('#previewFormTitle').text(t.type_name + ' (' + t.type_prefix + ')');
         var container = $('#previewFormFieldsContainer');
         container.empty();
@@ -356,7 +653,7 @@ jQuery(document).ready(function($) {
         }
 
         $('#dmrFormPreviewModal').css('display', 'flex');
-    };
+    }
 
     window.closePreviewModal = function() {
         $('#dmrFormPreviewModal').hide();
@@ -648,8 +945,28 @@ jQuery(document).ready(function($) {
         }
     };
 
-    // View Details Modal for Registrations
-    window.viewRegistrationDetails = function(r) {
+    // View Details Modal for Registrations (via AJAX)
+    window.viewRegistrationDetails = function(target) {
+        if (typeof target === 'object' && target !== null) {
+            populateRegistrationDetailsModal(target);
+            return;
+        }
+
+        var id = parseInt(target, 10);
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_registration_details',
+            id: id,
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            if (res.success && res.data.registration) {
+                populateRegistrationDetailsModal(res.data.registration);
+            } else {
+                alert(res.data ? res.data.message : 'Error fetching registration details.');
+            }
+        });
+    };
+
+    function populateRegistrationDetailsModal(r) {
         if (typeof r === 'string') {
             try { r = JSON.parse(r); } catch(e) {}
         }
@@ -691,27 +1008,31 @@ jQuery(document).ready(function($) {
         }
         
         $('#dmrViewRegistrationModal').css('display', 'flex').hide().fadeIn(150);
-    };
+    }
 
     window.closeViewRegistrationModal = function() {
         $('#dmrViewRegistrationModal').fadeOut(150);
     };
 
     // -------------------------------------------------------------
-    // AJAX SEARCH: REGISTRATIONS
+    // AJAX SEARCH & FILTERS: REGISTRATIONS
     // -------------------------------------------------------------
     window.filterRegistrationsTable = function() {
         var query = $('#dmr-reg-search-input').val().trim();
-        executeAjaxRegistrationsSearch(query);
+        var typeFilter = $('#dmr-reg-type-filter').val() || '';
+        var statusFilter = $('#dmr-reg-status-filter').val() || '';
+        executeAjaxRegistrationsSearch(query, typeFilter, statusFilter);
     };
 
-    function executeAjaxRegistrationsSearch(query) {
+    function executeAjaxRegistrationsSearch(query, typeFilter, statusFilter) {
         var tbody = $('#dmr-registrations-table tbody');
         tbody.html('<tr><td colspan="9" style="text-align:center; padding:35px 20px; color:#D32F2F; font-weight:600;"><span class="dmr-table-spinner"></span> Searching backend...</td></tr>');
 
         $.post(dmrAdmin.ajax_url, {
             action: 'dmr_search_registrations',
             query: query,
+            type: typeFilter,
+            status: statusFilter,
             nonce: dmrAdmin.nonce
         }, function(res) {
             if (res.success) {
@@ -735,10 +1056,9 @@ jQuery(document).ready(function($) {
 
         regs.forEach(function(r, idx) {
             var fullName = escapeHtml(r.first_name + ' ' + (r.last_name || '')).trim();
-            var jsonStr = JSON.stringify(r).replace(/'/g, "&#39;");
             var actionsHtml = `
                 <div class="dmr-action-icons">
-                    <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick='viewRegistrationDetails(${jsonStr})'>
+                    <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick="viewRegistrationDetails(${r.id})">
                         <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
@@ -791,36 +1111,60 @@ jQuery(document).ready(function($) {
     }
 
     // -------------------------------------------------------------
-    // AJAX SEARCH: MEMBERS (Approved)
+    // AJAX SEARCH & FILTERS: MEMBERS
     // -------------------------------------------------------------
     window.filterMembersTable = function() {
         var query = $('#dmr-member-search-input').val().trim();
-        executeAjaxMembersSearch(query);
+        var typeFilter = $('#dmr-member-type-filter').val() || '';
+        var statusFilter = $('#dmr-member-status-filter').val() || '';
+        executeAjaxMembersSearch(query, typeFilter, statusFilter);
     };
 
-    function executeAjaxMembersSearch(query) {
+    function executeAjaxMembersSearch(query, typeFilter, statusFilter) {
         var tbody = $('#dmr-members-table tbody');
-        tbody.html('<tr><td colspan="8" style="text-align:center; padding:35px 20px; color:#D32F2F; font-weight:600;"><span class="dmr-table-spinner"></span> Searching backend...</td></tr>');
+        tbody.html('<tr><td colspan="9" style="text-align:center; padding:35px 20px; color:#D32F2F; font-weight:600;"><span class="dmr-table-spinner"></span> Searching backend...</td></tr>');
 
         $.post(dmrAdmin.ajax_url, {
             action: 'dmr_search_members',
             query: query,
+            type: typeFilter,
+            status: statusFilter,
             nonce: dmrAdmin.nonce
         }, function(res) {
             if (res.success) {
                 renderMembersRows(res.data.members);
             } else {
-                tbody.html('<tr><td colspan="8" style="text-align:center; padding:30px; color:#6B7280;">No members found matching search.</td></tr>');
+                tbody.html('<tr><td colspan="9" style="text-align:center; padding:30px; color:#6B7280;">No members found matching search.</td></tr>');
             }
         }).fail(function() {
-            tbody.html('<tr><td colspan="8" style="text-align:center; padding:30px; color:#DC2626;">Error retrieving members from server.</td></tr>');
+            tbody.html('<tr><td colspan="9" style="text-align:center; padding:30px; color:#DC2626;">Error retrieving members from server.</td></tr>');
         });
     }
 
     // -------------------------------------------------------------
-    // MEMBER ACTIONS: VIEW, EDIT, DELETE
+    // MEMBER ACTIONS: VIEW, EDIT, DELETE (ALL VIA AJAX)
     // -------------------------------------------------------------
-    window.viewMemberDetails = function(m) {
+    window.viewMemberDetails = function(target) {
+        if (typeof target === 'object' && target !== null) {
+            populateMemberDetailsModal(target);
+            return;
+        }
+
+        var id = parseInt(target, 10);
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_member_details',
+            id: id,
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            if (res.success && res.data.member) {
+                populateMemberDetailsModal(res.data.member);
+            } else {
+                alert(res.data ? res.data.message : 'Error fetching member details.');
+            }
+        });
+    };
+
+    function populateMemberDetailsModal(m) {
         if (typeof m === 'string') {
             try { m = JSON.parse(m); } catch(e) {}
         }
@@ -858,13 +1202,33 @@ jQuery(document).ready(function($) {
         }
 
         $('#dmrViewMemberModal').css('display', 'flex').hide().fadeIn(150);
-    };
+    }
 
     window.closeViewMemberModal = function() {
         $('#dmrViewMemberModal').fadeOut(150);
     };
 
-    window.openEditMemberModal = function(m) {
+    window.openEditMemberModal = function(target) {
+        if (typeof target === 'object' && target !== null) {
+            populateMemberEditModal(target);
+            return;
+        }
+
+        var id = parseInt(target, 10);
+        $.post(dmrAdmin.ajax_url, {
+            action: 'dmr_get_member_details',
+            id: id,
+            nonce: dmrAdmin.nonce
+        }, function(res) {
+            if (res.success && res.data.member) {
+                populateMemberEditModal(res.data.member);
+            } else {
+                alert(res.data ? res.data.message : 'Error fetching member details.');
+            }
+        });
+    };
+
+    function populateMemberEditModal(m) {
         if (typeof m === 'string') {
             try { m = JSON.parse(m); } catch(e) {}
         }
@@ -875,7 +1239,7 @@ jQuery(document).ready(function($) {
         $('#edit-mem-phone').val(m.phone || '');
 
         $('#dmrEditMemberModal').css('display', 'flex').hide().fadeIn(150);
-    };
+    }
 
     window.closeEditMemberModal = function() {
         $('#dmrEditMemberModal').fadeOut(150);
@@ -954,7 +1318,8 @@ jQuery(document).ready(function($) {
 
         members.forEach(function(m, idx) {
             var fullName = escapeHtml(m.first_name + ' ' + (m.last_name || '')).trim();
-            var jsonStr = JSON.stringify(m).replace(/'/g, "&#39;");
+            var status = m.status || 'approved';
+            var statusCap = status === 'approved' ? 'Active' : (status.charAt(0).toUpperCase() + status.slice(1));
             var row = `
                 <tr id="member-row-${m.id}">
                     <td>${idx + 1}</td>
@@ -964,16 +1329,16 @@ jQuery(document).ready(function($) {
                     <td>${escapeHtml(m.email)}</td>
                     <td>${escapeHtml(m.phone || '-')}</td>
                     <td><span class="dmr-badge-pill">${escapeHtml(m.type_name)}</span></td>
-                    <td><span class="dmr-status-badge dmr-status-approved">Active</span></td>
+                    <td><span class="dmr-status-badge dmr-status-${escapeHtml(status)}">${escapeHtml(statusCap)}</span></td>
                     <td>
                         <div class="dmr-action-icons">
-                            <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick='viewMemberDetails(${jsonStr})'>
+                            <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Details" onclick="viewMemberDetails(${m.id})">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
                             </button>
-                            <button type="button" class="dmr-icon-btn dmr-icon-edit" title="Edit Member" onclick='openEditMemberModal(${jsonStr})'>
+                            <button type="button" class="dmr-icon-btn dmr-icon-edit" title="Edit Member" onclick="openEditMemberModal(${m.id})">
                                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>

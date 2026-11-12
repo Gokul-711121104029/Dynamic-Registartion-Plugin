@@ -45,7 +45,7 @@ elseif (is_page('member-login')) $current_page = 'login';
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            font-family: "Times New Roman", Times, Georgia, serif;
             background: #F8F9FA;
             color: #1F2937;
             min-height: 100vh;

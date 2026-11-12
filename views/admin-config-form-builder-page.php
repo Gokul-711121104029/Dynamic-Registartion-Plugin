@@ -50,8 +50,14 @@ if (!empty($raw_data)) {
     <div style="margin-top:28px; padding-top:20px; display:flex; justify-content:space-between; align-items:center;">
         <button type="button" class="dmr-btn dmr-btn-outline" onclick="addNewSectionBlock()">+ Add New Section</button>
         <div style="display:flex; gap:12px;">
-            <button type="button" class="dmr-btn dmr-btn-outline" onclick="openLivePreviewModal()">👁️ Live Preview</button>
-            <button type="button" class="dmr-btn dmr-btn-primary" style="padding:10px 26px;" onclick="saveSectionsFormLayout(<?php echo esc_attr($member_type->id); ?>)">💾 Save Form Layout</button>
+            <button type="button" class="dmr-btn dmr-btn-outline" onclick="openLivePreviewModal()" style="display:inline-flex; align-items:center; gap:6px;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                Live Preview
+            </button>
+            <button type="button" class="dmr-btn dmr-btn-primary" style="padding:10px 26px;" onclick="saveSectionsFormLayout(<?php echo esc_attr($member_type->id); ?>)">Save Form Layout</button>
         </div>
     </div>
 </div>
@@ -89,8 +95,13 @@ if (!empty($raw_data)) {
 <!-- Modal: Section Delete Confirmation (Replaces native browser confirm) -->
 <div id="dmrSectionDeleteModal" class="dmr-modal-backdrop">
     <div class="dmr-modal-box" style="max-width: 420px; text-align: center; padding: 28px;">
-        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FEE2E2; color: #DC2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto; font-size: 24px;">
-            🗑️
+        <div style="width: 52px; height: 52px; border-radius: 50%; background: #FEE2E2; color: #DC2626; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px auto;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"></polyline>
+                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                <line x1="10" y1="11" x2="10" y2="17"></line>
+                <line x1="14" y1="11" x2="14" y2="17"></line>
+            </svg>
         </div>
         <h3 style="margin: 0 0 8px 0; font-size: 18px; color: #1F2937;">Delete Section?</h3>
         <p style="color: #6B7280; font-size: 14px; margin: 0 0 22px 0;">
@@ -169,7 +180,7 @@ function renderSectionDOM(title, fields) {
     var html = `
         <div class="dmr-section-block" id="${secId}">
             <div class="dmr-section-header">
-                <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                <div style="display:flex; align-items:center; gap:14px; flex:1; max-width:65%;">
                     <div class="dmr-section-drag-handle" title="Drag to move section Up / Down">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                             <circle cx="9" cy="5" r="2"></circle>
@@ -180,12 +191,26 @@ function renderSectionDOM(title, fields) {
                             <circle cx="15" cy="19" r="2"></circle>
                         </svg>
                     </div>
-                    <span style="font-size:18px;">📑</span>
-                    <input type="text" class="dmr-form-input sec-title" value="${escapeHtml(title)}" placeholder="Enter Section Name" style="font-size:15px; font-weight:700; width:300px;">
+                    <span style="display:inline-flex; align-items:center; color:#64748B;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <polyline points="14 2 14 8 20 8"></polyline>
+                            <line x1="16" y1="13" x2="8" y2="13"></line>
+                            <line x1="16" y1="17" x2="8" y2="17"></line>
+                            <polyline points="10 9 9 9 8 9"></polyline>
+                        </svg>
+                    </span>
+                    <input type="text" class="dmr-form-input sec-title" value="${escapeHtml(title)}" placeholder="Enter Section Name" style="font-size:15px; font-weight:700; width:100%; max-width:320px;">
                 </div>
-                <div style="display:flex; align-items:center; gap:10px;">
-                    <button type="button" class="dmr-btn dmr-btn-outline dmr-btn-sm" onclick="addFieldToSection('${secId}')">+ Add Field</button>
-                    <button type="button" class="dmr-btn dmr-btn-danger dmr-btn-sm" onclick="removeSectionBlock('${secId}')">🗑️ Delete Section</button>
+                <div style="display:flex; align-items:center; gap:12px; margin-left:auto;">
+                    <button type="button" class="dmr-btn dmr-btn-outline dmr-btn-sm" onclick="addFieldToSection('${secId}')" style="white-space:nowrap;">+ Add Field</button>
+                    <button type="button" class="dmr-btn dmr-btn-danger dmr-btn-sm" onclick="removeSectionBlock('${secId}')" style="display:inline-flex; align-items:center; gap:6px; white-space:nowrap;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="3 6 5 6 21 6"></polyline>
+                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                        </svg>
+                        Delete Section
+                    </button>
                 </div>
             </div>
             <div class="dmr-section-body">
@@ -346,8 +371,16 @@ function renderDynamicTypeOptionsDOM(selectElem, cfg) {
 
         box.html(`
             <div class="dmr-drawer-box" style="background:#FFF5F5 !important; border-color:#FFE0E0 !important;">
-                <label style="display:block; font-size:11px; font-weight:700; color:#D32F2F; margin-bottom:8px; text-transform:uppercase;">
-                    📋 Configure Choices:
+                <label style="display:flex; align-items:center; gap:6px; font-size:11px; font-weight:700; color:#D32F2F; margin-bottom:8px; text-transform:uppercase;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    Configure Choices:
                 </label>
                 <div class="options-container">${optionsRows}</div>
                 <button type="button" class="dmr-btn dmr-btn-outline dmr-btn-sm" style="margin-top:6px;" onclick="addOptionRow(this)">+ Add Option Value</button>

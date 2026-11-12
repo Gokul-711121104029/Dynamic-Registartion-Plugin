@@ -27,7 +27,12 @@ if (!empty($types)) {
 
         <div class="dmr-search-box">
             <div class="dmr-search-input-wrap">
-                <span class="dmr-search-icon-inside">🔍</span>
+                <span class="dmr-search-icon-inside" style="display:inline-flex; align-items:center; color:#6B7280;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </span>
                 <input type="text" id="dmr-form-search-input" class="dmr-search-input" placeholder="Search..." onkeydown="if(event.key==='Enter'||event.keyCode===13){event.preventDefault(); filterFormsTable();}">
             </div>
             <button type="button" class="dmr-btn-search" onclick="filterFormsTable()">SEARCH</button>
@@ -77,7 +82,7 @@ if (!empty($types)) {
                                 <div class="dmr-action-icons">
                                     <?php if ($field_count > 0): ?>
                                         <!-- View Form Preview Icon -->
-                                        <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Form Details & Preview" onclick='previewFormFields(<?php echo json_encode($t); ?>)'>
+                                        <button type="button" class="dmr-icon-btn dmr-icon-view" title="View Form Details & Preview" onclick="previewFormFields(<?php echo esc_attr($t->id); ?>)">
                                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                                 <circle cx="12" cy="12" r="3"></circle>
@@ -167,7 +172,11 @@ if (!empty($types)) {
             </div>
         <?php else: ?>
             <div style="text-align:center; padding:15px 0;">
-                <div style="font-size:36px; margin-bottom:10px;">✅</div>
+                <div style="width:50px; height:50px; border-radius:50%; background:#DEF7EC; color:#059669; display:flex; align-items:center; justify-content:center; margin:0 auto 12px auto;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
                 <h4 style="margin:0 0 6px 0; font-size:16px; color:#1F2937;">All Member Types Have Forms Configured</h4>
                 <p style="color:#6B7280; font-size:13px; line-height:1.5;">
                     Every member type currently has fields configured. You can <strong>Edit</strong> or <strong>View</strong> them directly in the table. If you want to create a brand new form, please first create a new Member Type in the <a href="<?php echo esc_url(home_url('/dashboard/?view=config_master')); ?>" style="color:#D32F2F; font-weight:600;">Config &gt; Master</a> page.
@@ -217,7 +226,7 @@ if (!empty($types)) {
 
         <div class="dmr-modal-footer">
             <button type="button" class="dmr-btn dmr-btn-outline" onclick="closeFormBuilderModal()">Cancel</button>
-            <button type="button" class="dmr-btn dmr-btn-primary" onclick="saveFormFieldsFromModal()">💾 Save Form Layout</button>
+            <button type="button" class="dmr-btn dmr-btn-primary" onclick="saveFormFieldsFromModal()">Save Form Layout</button>
         </div>
     </div>
 </div>
@@ -246,8 +255,12 @@ if (!empty($types)) {
 <!-- Modal 3: Custom In-Page Reset/Clear Confirmation -->
 <div id="dmrFormResetModal" class="dmr-modal-backdrop">
     <div class="dmr-modal-box" style="max-width: 420px; text-align:center;">
-        <div style="width:50px; height:50px; border-radius:50%; background:#FEE2E2; color:#DC2626; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto; font-size:24px;">
-            ⚠️
+        <div style="width:50px; height:50px; border-radius:50%; background:#FEE2E2; color:#DC2626; display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                <line x1="12" y1="9" x2="12" y2="13"></line>
+                <line x1="12" y1="17" x2="12.01" y2="17"></line>
+            </svg>
         </div>
         <h3 style="margin:0 0 8px 0; font-size:18px; color:#1F2937;">Delete Form Fields?</h3>
         <p style="color:#6B7280; font-size:14px; margin:0 0 20px 0;">

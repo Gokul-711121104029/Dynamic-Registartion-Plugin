@@ -60,6 +60,13 @@ class DMR_Plugin {
         add_action('wp_ajax_dmr_user_login', array($this, 'ajax_user_login'));
         add_action('wp_ajax_nopriv_dmr_user_login', array($this, 'ajax_user_login'));
         
+        add_action('wp_ajax_dmr_get_registration_details', array($this, 'ajax_get_registration_details'));
+        add_action('wp_ajax_dmr_get_member_details', array($this, 'ajax_get_member_details'));
+        add_action('wp_ajax_dmr_get_member_type_details', array($this, 'ajax_get_member_type_details'));
+        add_action('wp_ajax_dmr_get_form_preview_details', array($this, 'ajax_get_form_preview_details'));
+        add_action('wp_ajax_dmr_get_growth_chart_data', array($this, 'ajax_get_growth_chart_data'));
+        add_action('wp_ajax_dmr_get_dashboard_charts_data', array($this, 'ajax_get_dashboard_charts_data'));
+        
         // Auto-hook top frontend navbar for regular public pages
         add_action('wp_body_open', array($this, 'inject_site_header'));
         add_action('wp_footer', array($this, 'inject_theme_styles'));
@@ -401,17 +408,30 @@ class DMR_Plugin {
 
             <div class="dmr-features-grid">
                 <div class="dmr-feature-card">
-                    <div class="dmr-card-icon">⚡</div>
+                    <div class="dmr-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                        </svg>
+                    </div>
                     <h3>Automated Membership ID</h3>
                     <p>Sequential IDs with customizable prefixes and padding (e.g. LM-0001) generated instantly.</p>
                 </div>
                 <div class="dmr-feature-card">
-                    <div class="dmr-card-icon">📋</div>
+                    <div class="dmr-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        </svg>
+                    </div>
                     <h3>Category Tailored Forms</h3>
                     <p>Registration forms adapt according to your chosen membership category.</p>
                 </div>
                 <div class="dmr-feature-card">
-                    <div class="dmr-card-icon">🛡️</div>
+                    <div class="dmr-card-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                        </svg>
+                    </div>
                     <h3>Admin Managed</h3>
                     <p>Complete control over member records, verification, and dynamic configuration.</p>
                 </div>
@@ -571,8 +591,11 @@ class DMR_Plugin {
             ?>
             <div class="dmr-frontend-container" style="max-width: 720px; margin: 40px auto; padding: 0 20px;">
                 <div class="dmr-form-card" style="background:#FFFFFF; border:1px solid #E5E7EB; border-radius:16px; padding:44px 36px; text-align:center; box-shadow:0 4px 20px rgba(0,0,0,0.04);">
-                    <div style="width:64px; height:64px; border-radius:50%; background:#FFF5F5; color:#D32F2F; display:flex; align-items:center; justify-content:center; margin:0 auto 20px auto; font-size:30px; border:1px solid #FFE0E0;">
-                        📋
+                    <div style="width:64px; height:64px; border-radius:50%; background:#FFF5F5; color:#D32F2F; display:flex; align-items:center; justify-content:center; margin:0 auto 20px auto; border:1px solid #FFE0E0;">
+                        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                            <rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect>
+                        </svg>
                     </div>
                     <span style="display:inline-block; background:#FFEBEE; color:#D32F2F; font-size:12px; font-weight:700; padding:4px 12px; border-radius:12px; margin-bottom:12px;">
                         Category: <?php echo esc_html($category->type_prefix); ?>
@@ -742,8 +765,12 @@ class DMR_Plugin {
                     Thank you! Your registration details have been received.
                 </p>
                 <div style="background:#FFFBEB; border:1px solid #FDE68A; border-radius:12px; padding:14px 18px; margin-bottom:20px; text-align:center;">
-                    <div style="font-size:13px; font-weight:700; color:#B45309; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px;">
-                        ⏳ Application Status
+                    <div style="font-size:13px; font-weight:700; color:#B45309; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; display:flex; align-items:center; justify-content:center; gap:6px;">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        Application Status
                     </div>
                     <div style="font-size:16px; font-weight:700; color:#92400E;">
                         Your Application is Under Review
@@ -1043,12 +1070,43 @@ class DMR_Plugin {
         global $wpdb;
         $table_members = $wpdb->prefix . 'dmr_members';
         $query = isset($_POST['query']) ? sanitize_text_field($_POST['query']) : '';
+        $type_filter = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
+        $status_filter = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
+
+        $sql = "SELECT * FROM $table_members WHERE 1=1";
+        $params = array();
+
+        if (!empty($status_filter)) {
+            $sql .= " AND status = %s";
+            $params[] = $status_filter;
+        } else {
+            // Default registrations view is pending
+            $sql .= " AND status = 'pending'";
+        }
+
+        if (!empty($type_filter)) {
+            $sql .= " AND (type_name = %s OR type_id = %s)";
+            $params[] = $type_filter;
+            $params[] = $type_filter;
+        }
 
         if (!empty($query)) {
             $like = '%' . $wpdb->esc_like($query) . '%';
-            $registrations = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_members WHERE status = 'pending' AND (member_id_code LIKE %s OR first_name LIKE %s OR last_name LIKE %s OR email LIKE %s OR phone LIKE %s OR type_name LIKE %s) ORDER BY id DESC", $like, $like, $like, $like, $like, $like));
+            $sql .= " AND (member_id_code LIKE %s OR first_name LIKE %s OR last_name LIKE %s OR email LIKE %s OR phone LIKE %s OR type_name LIKE %s)";
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+        }
+
+        $sql .= " ORDER BY id DESC";
+
+        if (!empty($params)) {
+            $registrations = $wpdb->get_results($wpdb->prepare($sql, $params));
         } else {
-            $registrations = $wpdb->get_results("SELECT * FROM $table_members WHERE status = 'pending' ORDER BY id DESC");
+            $registrations = $wpdb->get_results($sql);
         }
 
         wp_send_json_success(array('registrations' => $registrations));
@@ -1063,12 +1121,43 @@ class DMR_Plugin {
         global $wpdb;
         $table_members = $wpdb->prefix . 'dmr_members';
         $query = isset($_POST['query']) ? sanitize_text_field($_POST['query']) : '';
+        $type_filter = isset($_POST['type']) ? sanitize_text_field($_POST['type']) : '';
+        $status_filter = isset($_POST['status']) ? sanitize_text_field($_POST['status']) : '';
+
+        $sql = "SELECT * FROM $table_members WHERE 1=1";
+        $params = array();
+
+        if (!empty($status_filter)) {
+            $sql .= " AND status = %s";
+            $params[] = $status_filter;
+        } else {
+            // Default members view is approved
+            $sql .= " AND status = 'approved'";
+        }
+
+        if (!empty($type_filter)) {
+            $sql .= " AND (type_name = %s OR type_id = %s)";
+            $params[] = $type_filter;
+            $params[] = $type_filter;
+        }
 
         if (!empty($query)) {
             $like = '%' . $wpdb->esc_like($query) . '%';
-            $members = $wpdb->get_results($wpdb->prepare("SELECT * FROM $table_members WHERE status = 'approved' AND (member_id_code LIKE %s OR first_name LIKE %s OR last_name LIKE %s OR email LIKE %s OR phone LIKE %s OR type_name LIKE %s) ORDER BY id DESC", $like, $like, $like, $like, $like, $like));
+            $sql .= " AND (member_id_code LIKE %s OR first_name LIKE %s OR last_name LIKE %s OR email LIKE %s OR phone LIKE %s OR type_name LIKE %s)";
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+            $params[] = $like;
+        }
+
+        $sql .= " ORDER BY id DESC";
+
+        if (!empty($params)) {
+            $members = $wpdb->get_results($wpdb->prepare($sql, $params));
         } else {
-            $members = $wpdb->get_results("SELECT * FROM $table_members WHERE status = 'approved' ORDER BY id DESC");
+            $members = $wpdb->get_results($sql);
         }
 
         wp_send_json_success(array('members' => $members));
@@ -1119,6 +1208,162 @@ class DMR_Plugin {
 
         $wpdb->delete($table_members, array('id' => $id));
         wp_send_json_success(array('message' => 'Member deleted permanently!'));
+    }
+
+    public function ajax_get_registration_details() {
+        check_ajax_referer('dmr_admin_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Unauthorized.'));
+        }
+
+        global $wpdb;
+        $table_members = $wpdb->prefix . 'dmr_members';
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $registration = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_members WHERE id = %d", $id));
+
+        if (!$registration) {
+            wp_send_json_error(array('message' => 'Registration not found.'));
+        }
+
+        wp_send_json_success(array('registration' => $registration));
+    }
+
+    public function ajax_get_member_details() {
+        check_ajax_referer('dmr_admin_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Unauthorized.'));
+        }
+
+        global $wpdb;
+        $table_members = $wpdb->prefix . 'dmr_members';
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $member = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_members WHERE id = %d", $id));
+
+        if (!$member) {
+            wp_send_json_error(array('message' => 'Member not found.'));
+        }
+
+        wp_send_json_success(array('member' => $member));
+    }
+
+    public function ajax_get_member_type_details() {
+        check_ajax_referer('dmr_admin_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Unauthorized.'));
+        }
+
+        global $wpdb;
+        $table_types = $wpdb->prefix . 'dmr_member_types';
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $type = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_types WHERE id = %d", $id));
+
+        if (!$type) {
+            wp_send_json_error(array('message' => 'Member Type not found.'));
+        }
+
+        wp_send_json_success(array('type' => $type));
+    }
+
+    public function ajax_get_form_preview_details() {
+        check_ajax_referer('dmr_admin_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Unauthorized.'));
+        }
+
+        global $wpdb;
+        $table_types = $wpdb->prefix . 'dmr_member_types';
+        $id = isset($_POST['id']) ? intval($_POST['id']) : 0;
+        $type = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_types WHERE id = %d", $id));
+
+        if (!$type) {
+            wp_send_json_error(array('message' => 'Form configuration not found.'));
+        }
+
+        wp_send_json_success(array('type' => $type));
+    }
+
+    public function ajax_get_growth_chart_data() {
+        check_ajax_referer('dmr_admin_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Unauthorized.'));
+        }
+
+        global $wpdb;
+        $table_members = $wpdb->prefix . 'dmr_members';
+
+        $months = array();
+        $counts = array();
+
+        // Retrieve counts for the last 12 months
+        for ($i = 11; $i >= 0; $i--) {
+            $month_ts = strtotime("-$i months");
+            $month_label = date('M', $month_ts);
+            $year_month = date('Y-m', $month_ts);
+
+            $count = (int)$wpdb->get_var($wpdb->prepare(
+                "SELECT COUNT(*) FROM $table_members WHERE created_at LIKE %s",
+                $year_month . '%'
+            ));
+
+            $months[] = $month_label;
+            $counts[] = $count;
+        }
+
+        wp_send_json_success(array(
+            'labels' => $months,
+            'data'   => $counts
+        ));
+    }
+
+    public function ajax_get_dashboard_charts_data() {
+        check_ajax_referer('dmr_admin_nonce', 'nonce');
+        if (!current_user_can('manage_options')) {
+            wp_send_json_error(array('message' => 'Unauthorized.'));
+        }
+
+        global $wpdb;
+        $table_types = $wpdb->prefix . 'dmr_member_types';
+        $table_members = $wpdb->prefix . 'dmr_members';
+
+        // 1. Status Distribution (Pie Chart): Active (approved), Pending, Rejected
+        $status_approved = (int)$wpdb->get_var("SELECT COUNT(*) FROM $table_members WHERE status = 'approved'");
+        $status_pending  = (int)$wpdb->get_var("SELECT COUNT(*) FROM $table_members WHERE status = 'pending'");
+        $status_rejected = (int)$wpdb->get_var("SELECT COUNT(*) FROM $table_members WHERE status = 'rejected'");
+
+        $pie_data = array(
+            'labels' => array('Active', 'Pending', 'Rejected'),
+            'counts' => array($status_approved, $status_pending, $status_rejected)
+        );
+
+        // 2. Member Type Breakdown (Bar Chart): All member types created in Master
+        $all_types = $wpdb->get_results("SELECT * FROM $table_types ORDER BY id ASC");
+        $bar_labels = array();
+        $bar_counts = array();
+
+        if (!empty($all_types)) {
+            foreach ($all_types as $t) {
+                $label = !empty($t->type_prefix) ? $t->type_name . ' (' . $t->type_prefix . ')' : $t->type_name;
+                // Count all members registered under this member type
+                $m_count = (int)$wpdb->get_var($wpdb->prepare(
+                    "SELECT COUNT(*) FROM $table_members WHERE type_id = %d OR type_name = %s",
+                    $t->id,
+                    $t->type_name
+                ));
+
+                $bar_labels[] = $label;
+                $bar_counts[] = $m_count;
+            }
+        }
+
+        $bar_data = array(
+            'labels' => $bar_labels,
+            'counts' => $bar_counts
+        );
+
+        wp_send_json_success(array(
+            'pie' => $pie_data,
+            'bar' => $bar_data
+        ));
     }
 
     public function ajax_submit_contact() {

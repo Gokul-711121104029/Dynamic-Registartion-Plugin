@@ -1,4 +1,17 @@
-/* DMR Frontend Stylesheet - Clean Red and White Theme */
+body,
+.dmr-frontend-container,
+.dmr-navbar,
+.dmr-form-wrapper,
+.dmr-card,
+.dmr-btn {
+    font-family: "Times New Roman", Times, Georgia, serif !important;
+}
+
+.dmr-form-header h2,
+.dmr-stage-header h2 {
+    border-bottom: 2px solid var(--dmr-red);
+    padding-bottom: 12px;
+}
 .dmr-lang-toggle,
 .dmr-lang-badge,
 .bottom-lang-pill {
